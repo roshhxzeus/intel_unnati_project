@@ -1,0 +1,93 @@
+module isroFIGOFSM (
+  input wire clk,
+  input wire reset,
+  input wire move_input,
+  input wire stay_input,
+  output reg [2:0] current_location
+);
+
+  // Define the states
+  localparam [2:0] Room0 = 3'b000;
+  localparam [2:0] Room1 = 3'b001;
+  localparam [2:0] Room2 = 3'b010;
+  localparam [2:0] Room3 = 3'b011;
+  localparam [2:0] Room4 = 3'b100;
+  localparam [2:0] Room5 = 3'b101;
+  localparam [2:0] Room6 = 3'b110;
+  localparam [2:0] Room7 = 3'b111;
+
+  // Define the state register
+  reg [2:0] current_state;
+
+  always @(posedge clk or posedge reset) begin
+    if (reset) begin
+      current_state <= Room0;  // Initialize to Room0 on reset
+    end else begin
+      case (current_state)
+        Room0:
+          if (move_input)
+            current_state <= Room1;
+          else if (stay_input)
+            current_state <= Room0;
+        Room1:
+          if (move_input)
+            current_state <= Room2;
+          else if (stay_input)
+            current_state <= Room1;
+        Room2:
+          if (move_input)
+            current_state <= Room3;
+          else if (stay_input)
+            current_state <= Room2;
+        Room3:
+          if (move_input)
+            current_state <= Room4;
+          else if (stay_input)
+            current_state <= Room3;
+        Room4:
+          if (move_input)
+            current_state <= Room5;
+          else if (stay_input)
+            current_state <= Room4;
+        Room5:
+          if (move_input)
+            current_state <= Room6;
+          else if (stay_input)
+            current_state <= Room5;
+        Room6:
+          if (move_input)
+            current_state <= Room7;
+          else if (stay_input)
+            current_state <= Room6;
+        Room7:
+          if (move_input)
+            current_state <= Room0;
+          else if (stay_input)
+            current_state <= Room7;
+      endcase
+    end
+  end
+
+  // Assign the current location based on the current state
+  always @(current_state) begin
+    case (current_state)
+      Room0:
+        current_location <= Room0;
+      Room1:
+        current_location <= Room1;
+      Room2:
+        current_location <= Room2;
+      Room3:
+        current_location <= Room3;
+      Room4:
+        current_location <= Room4;
+      Room5:
+        current_location <= Room5;
+      Room6:
+        current_location <= Room6;
+      Room7:
+        current_location <= Room7;
+    endcase
+  end
+
+endmodule
