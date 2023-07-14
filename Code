@@ -1,0 +1,68 @@
+#TEST BENCH CODE
+
+
+module isroFIGOFSM_tb;
+  reg clk;
+  reg reset;
+  reg move_input;
+  reg stay_input;
+  wire [2:0] current_location;
+
+  FigoFSM dut (
+    .clk(clk),
+    .reset(reset),
+    .move_input(move_input),
+    .stay_input(stay_input),
+    .current_location(current_location)
+  );
+
+  // Clock generation
+  always begin
+    clk = 1'b0;
+    #5;
+    clk = 1'b1;
+    #5;
+  end
+
+  initial begin
+    reset = 1'b1;
+    move_input = 1'b0;
+    stay_input = 1'b0;
+    #10;
+    reset = 1'b0;
+    #10;
+
+    // Test case 1: Figo moves from Room0 to Room1
+    move_input = 1'b1;
+    stay_input = 1'b0;
+    #10;
+    move_input = 1'b0;
+    stay_input = 1'b0;
+    #10;
+
+    // Test case 2: Figo stays in Room1
+    move_input = 1'b0;
+    stay_input = 1'b1;
+    #10;
+
+    // Test case 3: Figo moves from Room1 to Room2
+    move_input = 1'b1;
+    stay_input = 1'b0;
+    #10;
+    move_input = 1'b0;
+    stay_input = 1'b0;
+    #10;
+
+    // Test case 4: Figo moves from Room2 to Room3
+    move_input = 1'b1;
+    stay_input = 1'b0;
+    #10;
+    move_input = 1'b0;
+    stay_input = 1'b0;
+    #10;
+
+    // Add more test cases as needed
+
+    $finish;
+  end
+endmodule
